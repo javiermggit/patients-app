@@ -1,0 +1,182 @@
+<div class="container">
+
+  
+  <h2>Listado de pacientes</h2>
+
+  <button class="btn add" (click)="showForm = true">
+  + Nuevo paciente
+</button>
+
+  <!-- BUSCADOR -->
+  <input
+    type="text"
+    placeholder="Buscar por nombre o documento..."
+    class="search"
+    [(ngModel)]="searchText"
+  />
+
+
+  <div class="form-container" *ngIf="showForm">
+
+  <h3>{{ isEditMode ? 'Editar paciente' : 'Crear paciente' }}</h3>
+
+  <form (ngSubmit)="savePatient(patientForm)" #patientForm="ngForm">
+
+    <!-- NOMBRES -->
+    <input
+      type="text"
+      placeholder="Nombres"
+      name="firstName"
+      [(ngModel)]="form.firstName"
+      #firstName="ngModel"
+      required
+      [class.input-error]="firstName.invalid && firstName.touched"
+    />
+    <div class="error-text" *ngIf="firstName.invalid && firstName.touched">
+      El nombre es obligatorio
+    </div>
+
+    <!-- APELLIDOS -->
+    <input
+      type="text"
+      placeholder="Apellidos"
+      name="lastName"
+      [(ngModel)]="form.lastName"
+      #lastName="ngModel"
+      required
+      [class.input-error]="lastName.invalid && lastName.touched"
+    />
+    <div class="error-text" *ngIf="lastName.invalid && lastName.touched">
+      El apellido es obligatorio
+    </div>
+
+    <!-- TIPO DOCUMENTO -->
+    <select
+      name="documentType"
+      [(ngModel)]="form.documentType"
+      #documentType="ngModel"
+      required
+      [class.input-error]="documentType.invalid && documentType.touched"
+    >
+      <option value="">Tipo documento</option>
+      <option value="CC">CC</option>
+      <option value="TI">TI</option>
+      <option value="CE">CE</option>
+    </select>
+    <div class="error-text" *ngIf="documentType.invalid && documentType.touched">
+      Selecciona el tipo de documento
+    </div>
+
+    <!-- DOCUMENTO -->
+    <input
+      type="text"
+      placeholder="Número documento"
+      name="documentNumber"
+      [(ngModel)]="form.documentNumber"
+      #documentNumber="ngModel"
+      required
+      [class.input-error]="documentNumber.invalid && documentNumber.touched"
+    />
+    <div class="error-text" *ngIf="documentNumber.invalid && documentNumber.touched">
+      El documento es obligatorio
+    </div>
+
+    <!-- TELÉFONO -->
+    <input
+      type="text"
+      placeholder="Teléfono"
+      name="phoneNumber"
+      [(ngModel)]="form.phoneNumber"
+      #phoneNumber="ngModel"
+      required
+      [class.input-error]="phoneNumber.invalid && phoneNumber.touched"
+    />
+    <div class="error-text" *ngIf="phoneNumber.invalid && phoneNumber.touched">
+      El teléfono es obligatorio
+    </div>
+
+    <!-- EMAIL -->
+    <input
+      type="email"
+      placeholder="Correo electrónico"
+      name="email"
+      [(ngModel)]="form.email"
+      #email="ngModel"
+      required
+      email
+      [class.input-error]="email.invalid && email.touched"
+    />
+    <div class="error-text" *ngIf="email.errors?.['required'] && email.touched">
+      El correo es obligatorio
+    </div>
+    <div class="error-text" *ngIf="email.errors?.['email'] && email.touched">
+      Correo inválido
+    </div>
+
+    <!-- FECHA -->
+    <input
+      type="date"
+      name="birthDate"
+      [(ngModel)]="form.birthDate"
+      #birthDate="ngModel"
+      required
+      [class.input-error]="birthDate.invalid && birthDate.touched"
+    />
+    <div class="error-text" *ngIf="birthDate.invalid && birthDate.touched">
+      La fecha de nacimiento es obligatoria
+    </div>
+
+    <div class="form-actions">
+      <button class="btn save" [disabled]="patientForm.invalid">
+        Guardar
+      </button>
+      <button type="button" class="btn cancel" (click)="cancelForm()">
+        Cancelar
+      </button>
+    </div>
+
+  </form>
+
+</div>
+
+
+
+
+  <table *ngIf="patientsFiltered.length > 0; else noPatients">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Tipo Doc</th>
+        <th>N° Documento</th>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Correo</th>
+         <th>Telefono</th>
+        <th>Cumpleaños</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let p of patientsFiltered">
+        <td>{{ p.patientId }}</td>
+        <td>{{ p.documentType }}</td>
+        <td>{{ p.documentNumber }}</td>
+        <td>{{ p.firstName }}</td>
+        <td>{{ p.lastName }}</td>
+        <td>{{ p.email }}</td>
+        <td>{{ p.phoneNumber }}</td>
+        <td>{{ p.birthDate }}</td>
+        <td class="actions">
+          <button class="btn edit" (click)="editPatient(p)">Editar</button>
+          <button class="btn delete" (click)="deletePatient(p)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ng-template #noPatients>
+    <p class="empty">No hay pacientes registrados</p>
+  </ng-template>
+
+</div>
