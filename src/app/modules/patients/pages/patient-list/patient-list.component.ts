@@ -28,6 +28,8 @@ export class PatientListComponent implements OnInit {
         documentNumber: ''
     };
     searchText: string = '';
+    selectedPatient: Patient | null = null;
+    showDetail = false;
 
     constructor(
         private patientService: PatientService,
@@ -48,7 +50,16 @@ export class PatientListComponent implements OnInit {
             p.documentNumber.includes(text)
         );
     }
+    
+    viewDetail(patient: Patient): void {
+  this.selectedPatient = patient;
+  this.showDetail = true;
+}
 
+closeDetail(): void {
+  this.showDetail = false;
+  this.selectedPatient = null;
+}
 
     ngOnInit(): void {
 

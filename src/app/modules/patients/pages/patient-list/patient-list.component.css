@@ -130,3 +130,20 @@ tbody tr:hover {
   margin-top: 4px;
 }
 
+.clickable {
+  cursor: pointer;
+}
+
+.clickable:hover {
+  background-color: #f1f5f9;
+}
+
+.detail-panel {
+  margin-top: 20px;
+  padding: 16px;
+  border-radius: 8px;
+  background-color: #f8fafc;
+  border: 1px solid #e5e7eb;
+}
+
+

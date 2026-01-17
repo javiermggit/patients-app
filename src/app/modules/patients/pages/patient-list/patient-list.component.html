@@ -158,7 +158,7 @@
     </thead>
 
     <tbody>
-      <tr *ngFor="let p of patientsFiltered">
+    <tr *ngFor="let p of patients" (click)="viewDetail(p)" class="clickable">
         <td>{{ p.patientId }}</td>
         <td>{{ p.documentType }}</td>
         <td>{{ p.documentNumber }}</td>
@@ -168,12 +168,30 @@
         <td>{{ p.phoneNumber }}</td>
         <td>{{ p.birthDate }}</td>
         <td class="actions">
-          <button class="btn edit" (click)="editPatient(p)">Editar</button>
-          <button class="btn delete" (click)="deletePatient(p)">Eliminar</button>
+        <button class="btn edit" (click)="editPatient(p); $event.stopPropagation()">Editar</button>
+<button class="btn delete" (click)="deletePatient(p); $event.stopPropagation()">Eliminar</button>
         </td>
       </tr>
     </tbody>
   </table>
+
+  <div class="detail-panel" *ngIf="showDetail && selectedPatient">
+
+  <h3>Detalle del paciente</h3>
+
+  <p><strong>ID:</strong> {{ selectedPatient.patientId }}</p>
+  <p><strong>Nombres:</strong> {{ selectedPatient.firstName }}</p>
+  <p><strong>Apellidos:</strong> {{ selectedPatient.lastName }}</p>
+  <p><strong>Tipo documento:</strong> {{ selectedPatient.documentType }}</p>
+  <p><strong>Número documento:</strong> {{ selectedPatient.documentNumber }}</p>
+  <p><strong>Teléfono:</strong> {{ selectedPatient.phoneNumber }}</p>
+  <p><strong>Email:</strong> {{ selectedPatient.email }}</p>
+  <p><strong>Fecha nacimiento:</strong> {{ selectedPatient.birthDate | date }}</p>
+
+  <button class="btn cancel" (click)="closeDetail()">Cerrar</button>
+
+</div>
+
 
   <ng-template #noPatients>
     <p class="empty">No hay pacientes registrados</p>
